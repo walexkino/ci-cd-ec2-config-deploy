@@ -23,6 +23,7 @@ jobs:
 # # Sequential workflow
 
   configure_infrastructure:  # a job step that configures the EC2 instance that was created using cloudformation
+
     docker:
       - image: python:3.7-alpine3.11 # we are using the python lite version because we require it to install its dependencies in the below
                                       # run command               
@@ -38,14 +39,14 @@ jobs:
             apk add --update ansible 
 
       - run:
-          name: Install dependencies
+          name: Ansible version
           command: |
             ansible --version
 
       - run:
           name: Configure server  # configures the ec2 server
           command: |
-            ansible-playbook -i inventory main-remote.yml
+            ansible-playbook -i inventory.txt main-remote.yml
       
 workflows:
   # Name the workflow
