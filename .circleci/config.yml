@@ -68,9 +68,9 @@ jobs:
             # Test if website exists
             if curl -s --head ${URL} 
             then
-              return 0
+              return 0 #means that it should return successfull if the URL exists
             else
-              return 0
+              return 1 # means it should return pipeline failure if the url doesnt exists
             fi
       
 workflows:
