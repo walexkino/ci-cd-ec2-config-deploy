@@ -26,30 +26,31 @@ jobs:
 
     docker:
       - image: python:3.7-alpine3.11 # we are using the python lite version because we require it to install its dependencies in the below
-                                      # run command               
+                                      # run command, also note that using python docker means that the below run command is valid for 
+                                      # only python any other command that is'nt supported by python wunt work             
     steps:
       - checkout # checkout the code
       - add_ssh_keys: # adding ssh keys generated from the private secret of the EC2 instance
           fingerprints: ["7e:0d:b3:1c:c1:53:80:d1:e6:fb:9d:b6:da:42:08:81"] # You can get this ID in the section where you registered the SSH Key
       
       - run:
-          name: Install dependencies
+          name: Install dependencies #install the dependencies files
           command: |
             # install the dependencies needed for your playbook
             apk add --update ansible 
 
-      - run:
+      - run: # would just like to see the ansible version
           name: Ansible version
           command: |
             ansible --version
 
       - run:
-          name: Configure server  # configures the ec2 server
+          name: Configure server  # configures the ec2 server using ansible
           command: |
-            ansible-playbook -i inventory.txt main-remote.yml
+            ansible-playbook -i inventory main-remote.yml
       
 workflows:
-  # Name the workflow
+  # Name the workflow 
   myWorkflow:
     jobs:
       - configure_infrastructure
