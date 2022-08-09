@@ -1,5 +1,5 @@
 [all]
-ec2-54-90-191-253.compute-1.amazonaws.com
+ec2-54-236-19-198.compute-1.amazonaws.com
 
 #18.215.157.46
 #ec2-18-215-157-46.compute-1.amazonaws.com  #i placed the Public IP DNS instead on IP cause the IP changes after EC2 restart
