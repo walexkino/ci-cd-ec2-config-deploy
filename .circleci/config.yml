@@ -72,6 +72,8 @@ jobs:
             else
               return 1 # means it should return pipeline failure if the url doesnt exists
             fi
+            
+      - destroy_environment
       
 workflows:
   # Name the workflow 
