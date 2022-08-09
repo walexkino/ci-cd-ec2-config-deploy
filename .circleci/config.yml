@@ -36,7 +36,12 @@ jobs:
           command: |
             # install the dependencies needed for your playbook
             apk add --update ansible 
-    
+
+      - run:
+          name: Install dependencies
+          command: |
+            ansible --version
+
       - run:
           name: Configure server  # configures the ec2 server
           command: |
