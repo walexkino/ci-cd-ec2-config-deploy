@@ -40,7 +40,7 @@ jobs:
       - run:
           name: Configure server  # configures the ec2 server
           command: |
-            ansible-playbook -i inventory.txt main-remote.yml
+            ansible-playbook -i inventory main-remote.yml
       
 workflows:
   # Name the workflow
