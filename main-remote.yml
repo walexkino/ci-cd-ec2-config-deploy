@@ -1,0 +1,12 @@
+---
+# Exercise for setting up a web server in an EC
+- name: Exercise for setting up a web server in an EC 
+  # hosts: ubuntu
+  # Use the public IP if the VM is already created
+  hosts: all #refers to the [all] we added to the top of the inventory file
+  user: ubuntu
+  become: true
+  become_method: sudo
+  become_user: root
+  roles: #so this runs everything inside the roles named setup so you dont need to be specifying the tasks as it encapsules everything
+    - setup

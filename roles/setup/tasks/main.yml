@@ -1,0 +1,46 @@
+---
+- name: "update apt packages."
+  become: yes
+  apt: # this is a module in ansible
+    update_cache: yes
+
+- name: "upgrade packages"
+  become: yes
+  apt:
+    upgrade: yes
+
+
+- name: remove dependencies that are no longer required
+  become: yes
+  apt:
+    autoremove: yes
+
+- name: "install dependencies."
+  become: yes
+  apt:
+    name: ["nodejs", "npm"] #installing the dependencies needed for nodejs such as nodejs and npm using the apt module >> it installs 
+                            # in array or list format i guess
+    state: latest
+    update_cache: yes
+
+- name: "install pm2 >> process manager for the runtime node.js"
+  become: yes
+  npm:
+    name: pm2
+    global: yes
+    production: yes
+    state: present
+
+- name: Creates directory
+  file:
+    path: ~/web
+    state: directory
+
+- name: Copy index test page
+  template:
+    src: "files/index.js" #source to 
+    dest: "~/web/index.js" #destination
+
+- name: Executing node #Executing the nodejs file
+  shell: | #shell scripting
+    pm2 start ~/web/index.js -f
