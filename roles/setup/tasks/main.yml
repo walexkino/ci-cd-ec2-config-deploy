@@ -1,8 +1,8 @@
 ---
-# - name: "update apt packages."
-#   become: yes
-#   apt: # this is a module in ansible
-#     update_cache: yes
+- name: "update apt packages."
+  become: yes
+  apt: # this is a module in ansible
+    update_cache: yes
 
 - name: "upgrade packages"
   become: yes
