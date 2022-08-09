@@ -56,7 +56,11 @@ jobs:
     docker:
       - image: alpine:latest # lightweight image
     steps:
-      - run: apk add --update curl  #
+      - run: 
+          name: updating the curl software
+          command: | 
+            apk add --update curl  #update / install curl dependencies
+            
       - run:
           name: smoke test
           command: |
