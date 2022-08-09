@@ -1,0 +1,49 @@
+version: 2.1
+# Use a package of configuration called an orb.
+# orbs:
+#   # Choose either one of the orbs below
+#   # welcome: circleci/welcome-orb@0.4.1
+#   aws-cli: circleci/aws-cli@2.0.3
+# # Define the jobs we want to run for this project
+jobs:
+
+#   create_infrastructure:  # a job step that automatically creates infrastructure
+#     docker:
+#       - image: amazon/aws-cli
+#     steps:
+#       - checkout
+#       - run:
+#           name: Create Cloudformation Stack
+#           command: | # note that this formation is for cloudformation using DEPLOY not CREATE so the syntax is different 
+#             aws cloudformation deploy --template-file template.yml --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} --region us-east-1
+#       # Fail the job intentionally to simulate an error.
+#       # Uncomment the line below if you want to fail the current step
+#       # - run: return 1
+#       # - destroy_environment
+# # Sequential workflow
+
+  configure_infrastructure:  # a job step that configures the EC2 instance that was created using cloudformation
+    docker:
+      - image: python:3.7-alpine3.11 # we are using the python lite version because we require it to install its dependencies in the below
+                                      # run command               
+    steps:
+      - checkout # checkout the code
+      - add_ssh_keys: # adding ssh keys generated from the private secret of the EC2 instance
+          fingerprints: ["7e:0d:b3:1c:c1:53:80:d1:e6:fb:9d:b6:da:42:08:81"] # You can get this ID in the section where you registered the SSH Key
+      
+      - run:
+          name: Install dependencies
+          command: |
+            # install the dependencies needed for your playbook
+            apk add --update ansible 
+    
+      - run:
+          name: Configure server  # configures the ec2 server
+          command: |
+            ansible-playbook -i inventory.txt main-remote.yml
+      
+workflows:
+  # Name the workflow
+  myWorkflow:
+    jobs:
+      - configure_infrastructure
